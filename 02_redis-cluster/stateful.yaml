@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis
+  namespace: csr
+  labels:
+    app: redis
+spec:
+  serviceName: redis
+  replicas: 6
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - name: redis
+        image: hub.cathay/redis:1.0
+        envFrom:
+          - configMapRef:
+              name: redis-config
+        ports:
+        - name: redis
+          containerPort: 6379
+          protocol: "TCP"
+        - name: cluster
+          containerPort: 16379
+          protocol: "TCP"
+        volumeMounts:
+        - name: redis-data
+          mountPath: /etc/redis
+          subPath: conf
+        - name: redis-data
+          mountPath: /var/lib/redis
+          subPath: data
+  volumeClaimTemplates:
+  - metadata:
+      name: redis-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: csr-storage
+      resources:
+        requests:
+          storage: 200m
