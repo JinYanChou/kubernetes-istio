@@ -22,10 +22,8 @@ spec:
         ports:
         - name: redis
           containerPort: 6379
-          protocol: "TCP"
         - name: cluster
           containerPort: 16379
-          protocol: "TCP"
         volumeMounts:
         - name: redis-data
           mountPath: /etc/redis
