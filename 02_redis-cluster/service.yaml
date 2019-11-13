@@ -8,8 +8,10 @@ metadata:
 spec:
   ports:
   - port: 6379
+    targetPort: 6379
     name: redis
   - port: 16379
+    targetPort: 16379
     name: cluster
   selector:
     app: redis
