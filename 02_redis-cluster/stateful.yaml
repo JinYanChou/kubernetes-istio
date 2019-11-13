@@ -19,9 +19,6 @@ spec:
       containers:
       - name: redis
         image: hub.cathay/redis:1.0
-        envFrom:
-          - configMapRef:
-              name: redis-config
         ports:
         - name: redis
           containerPort: 6379
