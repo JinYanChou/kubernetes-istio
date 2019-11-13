@@ -33,6 +33,8 @@ spec:
         - name: redis-data
           mountPath: /var/lib/redis
           subPath: data
+      imagePullSecrets:
+      - name: regcred
   volumeClaimTemplates:
   - metadata:
       name: redis-data
