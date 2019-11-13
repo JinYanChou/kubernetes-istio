@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: redis
-        image: hub.cathay/redis:1.0
+        image: hub.cathay/redis:5.0.6
         ports:
         - name: redis
           containerPort: 6379
