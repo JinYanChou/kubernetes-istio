@@ -3,6 +3,9 @@ kind: Deployment
 metadata:
   name: redis
   namespace: csr
+  metadata:
+    labels:
+      app: redis
 spec:
   replicas: 1
   selector:
@@ -29,6 +32,9 @@ kind: Service
 metadata:
   name: redis-service
   namespace: csr
+  metadata:
+    labels:
+      app: redis
 spec:
   selector:
     app: redis
