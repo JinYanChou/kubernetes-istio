@@ -25,6 +25,8 @@ spec:
             name: redis
           - containerPort: 16379
             name: cluster
+      imagePullSecrets:
+      - name: regcred
 ---
 apiVersion: v1
 kind: Service
