@@ -42,11 +42,16 @@ metadata:
   namespace: csr
 spec:
   hosts:
-  - "qpweb.192.168.99.100.nip.io"
+  - "*"
   gateways:
   - istio-system/istio-gateway
   http:
-  - route:
+  - match:
+    - uri:
+        prefix: /QPWeb
+    rewrite:
+      uri: /QPWeb
+    route:
     - destination:
         host: qpweb.csr.svc.cluster.local
         port:
