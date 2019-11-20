@@ -48,11 +48,22 @@ spec:
   http:
   - match:
     - uri:
-        prefix: /QPWeb
+        prefix: "/QPWeb/"
     rewrite:
-      uri: /QPWeb
+      uri: "/QPWeb/"
     route:
     - destination:
         host: qpweb.csr.svc.cluster.local
         port:
           number: 8080
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+ name: "qpweb"
+ namespace: "csr"
+spec:
+ host: "qpweb.csr.svc.cluster.local"
+ trafficPolicy:
+   tls:
+     mode: DISABLE
