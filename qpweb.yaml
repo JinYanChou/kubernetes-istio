@@ -4,7 +4,7 @@ metadata:
   name: qpweb
   namespace: csr
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: qpweb
