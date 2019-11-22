@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: amweb
+  namespace: csr
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: amweb
+  template:
+    metadata:
+      labels:
+        app: amweb
+    spec:
+      containers:
+      - name: amweb
+        image: hub.cathay/amweb:1.0
+        ports:
+        - containerPort: 8080
+          name: web
+      imagePullSecrets:
+      - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: amweb
+  namespace: csr
+spec:
+  selector:
+    app: amweb
+  ports:
+  - name: web
+    port: 8080
+    targetPort: 8080
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: amweb
+  namespace: csr
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - istio-system/istio-gateway
+  http:
+  - match:
+    - uri:
+        prefix: "/AMWeb/"
+    rewrite:
+      uri: "/AMWeb/"
+    route:
+    - destination:
+        host: amweb.csr.svc.cluster.local
+        port:
+          number: 8080
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+ name: "amweb"
+ namespace: "csr"
+spec:
+ host: "amweb.csr.svc.cluster.local"
+ trafficPolicy:
+   tls:
+     mode: DISABLE
