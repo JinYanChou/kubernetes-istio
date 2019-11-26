@@ -67,4 +67,4 @@ spec:
       storageClassName: csr-storage
       resources:
         requests:
-          storage: 1Gi
+          storage: 200Mi
