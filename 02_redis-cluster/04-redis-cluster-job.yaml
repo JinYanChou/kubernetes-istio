@@ -3,10 +3,15 @@ kind: Job
 metadata:
   name: redis-cluster-job
 spec:
+  ttlSecondsAfterFinished: 0
   template:
     metadata:
       name: redis-cluster-job
     spec:
+      initContainers:
+      - name: init-redis
+        image: busybox:1.28
+        command: ['sh', '-c', 'until nslookup redis-5.redis.csr.svc.cluster.local; do echo waiting for redis; sleep 2; done;']
       containers:
       - name: redis
         image: redis:5.0.6

@@ -18,21 +18,35 @@ spec:
     spec:
       containers:
       - name: redis
-        image: hub.cathay/redis:5.0.6
+        image: docker.io/redis:5.0.6-alpine
+        command:
+          - "redis-server"
+        args:
+          - "/etc/redis/redis.conf"
+          - --cluster-announce-ip
+          - "$(MY_POD_IP)"
+        env:
+        - name: MY_POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
         ports:
         - name: redis
           containerPort: 6379
         - name: cluster
           containerPort: 16379
         volumeMounts:
-        - name: redis-data
+        - name: redis-conf
           mountPath: /etc/redis
-          subPath: conf
         - name: redis-data
           mountPath: /var/lib/redis
-          subPath: data
-      imagePullSecrets:
-      - name: regcred
+      volumes:
+      - name: "redis-conf"
+        configMap:
+          name: "redis-conf"
+          items:
+            - key: "redis.conf"
+              path: "redis.conf"
   volumeClaimTemplates:
   - metadata:
       name: redis-data
