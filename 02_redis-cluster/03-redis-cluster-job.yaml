@@ -25,8 +25,11 @@ spec:
           redis3="$(getent hosts redis-3.redis.csr.svc.cluster.local | cut -d' ' -f1):6379"
           redis4="$(getent hosts redis-4.redis.csr.svc.cluster.local | cut -d' ' -f1):6379"
           redis5="$(getent hosts redis-5.redis.csr.svc.cluster.local | cut -d' ' -f1):6379"
-          redis-cli --cluster create ${redis0} ${redis1} ${redis2} --cluster-yes
-          redis-cli --cluster add-node ${redis3} ${redis0} --cluster-slave
-          redis-cli --cluster add-node ${redis4} ${redis1} --cluster-slave
-          redis-cli --cluster add-node ${redis5} ${redis2} --cluster-slave
+          COUNT=$(redis-cli -h redis-0.redis.csr.svc.cluster.local cluster nodes | wc -l)
+          if [ $COUNT -eq '1' ]; then
+            redis-cli --cluster create ${redis0} ${redis1} ${redis2} --cluster-yes
+            redis-cli --cluster add-node ${redis3} ${redis0} --cluster-slave
+            redis-cli --cluster add-node ${redis4} ${redis1} --cluster-slave
+            redis-cli --cluster add-node ${redis5} ${redis2} --cluster-slave
+          fi
       restartPolicy: Never
