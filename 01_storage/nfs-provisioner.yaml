@@ -20,7 +20,7 @@ spec:
       serviceAccountName: nfs-provisioner
       containers:
         - name: nfs-provisioner
-          image: quay.io/external_storage/nfs-client-provisioner:latest
+          image: hub.cathay/nfs-client-provisioner:latest
           volumeMounts:
             - name: nfs-client-root
               mountPath: /persistentvolumes
@@ -31,6 +31,8 @@ spec:
               value: 10.97.42.86
             - name: NFS_PATH
               value: /zookeeper/nfs
+      imagePullSecrets:
+        - name: regcred
       volumes:
         - name: nfs-client-root
           nfs:
