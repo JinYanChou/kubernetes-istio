@@ -11,7 +11,7 @@ spec:
     spec:
       initContainers:
       - name: init-redis
-        image: busybox:1.28
+        image: busybox:1.27.2
         command: ['sh', '-c', 'until nslookup redis-5.redis.csr.svc.cluster.local; do echo waiting for redis; sleep 2; done;']
       containers:
       - name: redis
