@@ -51,7 +51,7 @@ data:
     [OUTPUT]
         Name            es
         Match           *
-        Host            elasticsearch.cxl92008k8st01
+        Host            elasticsearch.10.97.42.83.nip.io
         Port            80
         Logstash_Format On
         Retry_Limit     False
