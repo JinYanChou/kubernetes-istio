@@ -53,7 +53,7 @@ data:
         Match           *
         Host            elasticsearch.10.97.42.83.nip.io
         Port            80
-        Index           local
         Logstash_Format On
+        Logstash_Prefix local
         Retry_Limit     False
         tls.verify      Off
