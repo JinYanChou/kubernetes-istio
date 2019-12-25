@@ -51,8 +51,8 @@ data:
     [OUTPUT]
         Name            es
         Match           *
-        Host            elasticsearch.logging.svc.cluster.local
-        Port            9200
+        Host            elasticsearch.cxl92008k8st01
+        Port            80
         Logstash_Format On
         Retry_Limit     False
         tls.verify      Off
