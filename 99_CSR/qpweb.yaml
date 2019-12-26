@@ -8,6 +8,12 @@ spec:
   selector:
     matchLabels:
       app: qpweb
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 10
   template:
     metadata:
       labels:
@@ -29,6 +35,26 @@ spec:
         ports:
         - containerPort: 8080
           name: web
+        volumeMounts:
+        - name: tomcat-server-xml
+          mountPath: /usr/local/tomcat/conf/server.xml
+          subPath: server.xml
+        - name: tomcat-context-xml
+          mountPath: /usr/local/tomcat/conf/context.xml
+          subPath: context.xml
+      volumes:
+      - name: tomcat-server-xml
+        configMap:
+          name: tomcat-configmap
+          items:
+          - key: server.xml
+            path: server.xml
+      - name: tomcat-context-xml
+        configMap:
+          name: tomcat-configmap
+          items:
+          - key: context.xml
+            path: context.xml
       imagePullSecrets:
       - name: regcred
 ---
