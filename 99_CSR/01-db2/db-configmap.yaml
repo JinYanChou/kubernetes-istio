@@ -4,7 +4,7 @@ metadata:
   name: db-configmap
   namespace: csr
 data:
-  server.xml: |
+  DB2PoolSvc.xml: |
     <?xml version="1.0"?>
     <Service name="DBManager">
     	<param-list>
