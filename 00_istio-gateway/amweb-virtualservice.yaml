@@ -1,0 +1,33 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: amweb
+  namespace: csr
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - istio-system/istio-gateway
+  http:
+  - match:
+    - uri:
+        prefix: "/AMWeb/"
+    rewrite:
+      uri: "/AMWeb/"
+    route:
+    - destination:
+        host: amweb.csr.svc.cluster.local
+        port:
+          number: 8080
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+ name: "amweb"
+ namespace: "csr"
+spec:
+ host: "amweb.csr.svc.cluster.local"
+ trafficPolicy:
+   tls:
+     mode: DISABLE
