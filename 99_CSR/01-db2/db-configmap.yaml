@@ -1,0 +1,92 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db-configmap
+  namespace: csr
+data:
+  server.xml: |
+    <?xml version="1.0"?>
+    <Service name="DBManager">
+    	<param-list>
+    		<param name="name">Default</param>
+    		<param name="type">pool</param>
+    		<param name="encryptable">false</param>
+    		<param name="dataSource">java:comp/env/jdbc/dbobj</param>
+    		<param name="debug">true</param>
+    	</param-list>
+    	<param-list>
+    		<param name="name">DS_AUTH</param>
+    		<param name="type">pool</param>
+    		<param name="encryptable">false</param>
+    		<param name="dataSource">java:comp/env/jdbc/auth</param>
+    		<param name="debug">true</param>
+    	</param-list>		
+    	<param-list>
+    		<param name="name">Auth</param>
+    		<param name="type">pool</param>
+    		<param name="encryptable">false</param>
+    		<param name="dataSource">java:comp/env/jdbc/auth</param>
+    		<param name="debug">true</param>
+    	</param-list>
+    	<param-list>
+    		<param name="name">Default-DBOBJ</param>
+    		<param name="type">pool</param>
+    		<param name="encryptable">false</param>
+    		<param name="dataSource">java:comp/env/jdbc/dbobj</param>
+    		<param name="debug">true</param>
+    	</param-list>
+    	<param-list>
+    		<param name="name">jdbc/CommonDS</param>
+    		<param name="type">pool</param>
+    		<param name="encryptable">false</param>
+    		<param name="dataSource">java:comp/env/jdbc/dbobj</param>
+    		<param name="debug">true</param>
+    	</param-list>
+    	<param-list>
+    		<param name="name">DS_ZZ</param>
+    		<param name="type">pool</param>
+    		<param name="encryptable">false</param>
+    		<param name="dataSource">java:comp/env/jdbc/default</param>
+    		<param name="debug">true</param>
+    	</param-list>	
+    	<param-list>
+    		<param name="name">DS_AM</param>
+    		<param name="type">pool</param>
+    		<param name="encryptable">false</param>
+    		<param name="dataSource">java:comp/env/jdbc/dbam</param>
+    		<param name="debug">true</param>
+    	</param-list>
+    	<param-list>
+    		<param name="name">DS_AP</param>
+    		<param name="type">pool</param>
+    		<param name="encryptable">false</param>
+    		<param name="dataSource">java:comp/env/jdbc/dbap</param>
+    		<param name="debug">true</param>
+    	</param-list>
+    	<param-list>
+    		<param name="name">DS_AG</param>
+    		<param name="type">pool</param>
+    		<param name="encryptable">false</param>
+    		<param name="dataSource">java:comp/env/jdbc/dbag</param>
+    		<param name="debug">true</param>
+    	</param-list>
+    	<param-list>
+    		<param name="name">DS_AT</param>
+    		<param name="type">pool</param>
+    		<param name="encryptable">false</param>
+    		<param name="dataSource">java:comp/env/jdbc/dbat</param>
+    		<param name="debug">true</param>
+    	</param-list>
+    	<param-list>
+    		<param name="name">DS_FM</param>
+    		<param name="type">pool</param>
+    		<param name="encryptable">false</param>
+    		<param name="dataSource">java:comp/env/jdbc/dbfm</param>
+    		<param name="debug">true</param>
+    	</param-list>
+        <sqlcmd-param-list>		
+    		<param name="sqlCmdType">sqlfile</param> <!-- db | file | sqlfile -->
+    		<param name="sqlFilePath">/webapp/AM_SRC/SQL</param>
+    		<param name="sqlLocal">QP</param>			
+    	</sqlcmd-param-list>
+    </Service>

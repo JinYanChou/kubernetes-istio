@@ -42,6 +42,9 @@ spec:
         - name: tomcat-context-xml
           mountPath: /usr/local/tomcat/conf/context.xml
           subPath: context.xml
+        - name: db2poolsvc-xml
+          mountPath: /webapp/AM_SRC/usr/cxlcs/config/service/DB2PoolSvc.xml
+          subPath: DB2PoolSvc.xml
       volumes:
       - name: tomcat-server-xml
         configMap:
@@ -55,6 +58,12 @@ spec:
           items:
           - key: context.xml
             path: context.xml
+      - name: db2poolsvc-xml
+        configMap:
+          name: db-configmap
+          items:
+          - key: DB2PoolSvc.xml
+            path: DB2PoolSvc.xml
       imagePullSecrets:
       - name: regcred
 ---
