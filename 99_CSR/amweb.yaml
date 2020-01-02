@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   name: amweb
   namespace: csr
+  labels:
+    app: amweb
 spec:
   replicas: 3
   selector:
