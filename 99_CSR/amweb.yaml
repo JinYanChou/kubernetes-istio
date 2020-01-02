@@ -28,7 +28,6 @@ spec:
         - |
           COUNT=$(redis-cli -h redis-0.redis.csr.svc.cluster.local cluster nodes | wc -l)
           until $COUNT -eq 6; do echo waiting for redis; sleep 2; done;
-        command: ['sh', '-c', 'until nslookup redis-5.redis.csr.svc.cluster.local; do echo waiting for redis; sleep 2; done;']
       containers:
       - name: amweb
         image: hub.cathay/amweb:1.0
