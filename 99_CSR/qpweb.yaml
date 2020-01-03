@@ -24,12 +24,7 @@ spec:
       initContainers:
       - name: init-redis
         image: redis:5.0.6-alpine
-        command:
-        - sh
-        - -c
-        - |
-          COUNT=$(redis-cli -h redis-0.redis.csr.svc.cluster.local cluster nodes | wc -l)
-          until $COUNT -eq 6; do echo waiting for redis; sleep 2; done;
+        command: ['sh', '-c', 'until nslookup redis-5.redis.csr.svc.cluster.local; do echo waiting for redis; sleep 2; done;']
       containers:
       - name: qpweb
         image: hub.cathay/qpweb:1.0
