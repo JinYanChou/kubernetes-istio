@@ -59,9 +59,7 @@ data:
       <WatchedResource>WEB-INF/web.xml</WatchedResource>
       <WatchedResource>${catalina.base}/conf/web.xml</WatchedResource>
     
-      <Manager className="org.redisson.tomcat.RedissonSessionManager"
-        configPath="${catalina.home}/redisson.conf"
-        readMode="MEMORY" updateMode="DEFAULT" boradcastSessionEvents="true" />
+      <Manager readMode="MEMORY" updateMode="DEFAULT" boradcastSessionEvents="true" />
     
       <Resource url="jdbc:db2://10.95.40.1:50000/CXL1" name="jdbc/default" username="EBAF" password="cxlebaf" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
       <Resource url="jdbc:db2://10.95.40.1:50000/CXL1" name="jdbc/dbobj" username="EBAF" password="cxlebaf" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
