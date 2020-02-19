@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: abweb
+  labels:
+    app: abweb
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: abweb
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 10
+  template:
+    metadata:
+      labels:
+        app: abweb
+    spec:
+      containers:
+      - name: abweb
+        image: hub.cathay/abweb:1.0-kafka-db2
+        ports:
+        - containerPort: 8080
+          name: web
+        volumeMounts:
+        - name: tomcat-server-xml
+          mountPath: /usr/local/tomcat/conf/server.xml
+          subPath: server.xml
+        - name: tomcat-context-xml
+          mountPath: /usr/local/tomcat/conf/context.xml
+          subPath: context.xml
+        - name: db2poolsvc-xml
+          mountPath: /webapp/usr/cxlcs/config/service/DB2PoolSvc.xml
+          subPath: DB2PoolSvc.xml
+      volumes:
+      - name: tomcat-server-xml
+        configMap:
+          name: tomcat-configmap
+          items:
+          - key: server.xml
+            path: server.xml
+      - name: tomcat-context-xml
+        configMap:
+          name: tomcat-configmap
+          items:
+          - key: context.xml
+            path: context.xml
+      - name: db2poolsvc-xml
+        configMap:
+          name: db-configmap
+          items:
+          - key: DB2PoolSvc.xml
+            path: DB2PoolSvc.xml
+      imagePullSecrets:
+      - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: abweb
+spec:
+  selector:
+    app: abweb
+  ports:
+  - name: web
+    port: 8080
+    targetPort: 8080

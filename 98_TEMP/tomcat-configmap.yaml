@@ -1,0 +1,97 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tomcat-configmap
+  namespace: csr
+data:
+  server.xml: |
+    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <Server port="8005" shutdown="SHUTDOWN">
+      <Listener className="org.apache.catalina.startup.VersionLoggerListener"/>
+      <Listener className="org.apache.catalina.core.AprLifecycleListener" SSLEngine="on"/>
+      <Listener className="org.apache.catalina.core.JreMemoryLeakPreventionListener"/>
+      <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener"/>
+      <Listener className="org.apache.catalina.core.ThreadLocalLeakPreventionListener"/>
+      <GlobalNamingResources>
+        <Resource name="jdbc/default" auth="Container" type="javax.sql.DataSource"/>
+        <Resource name="jdbc/dbobj" auth="Container" type="javax.sql.DataSource"/>
+        <Resource name="jdbc/auth" auth="Container" type="javax.sql.DataSource"/>
+        <Resource name="jdbc/dbab" auth="Container" type="javax.sql.DataSource"/>
+        <Resource name="jdbc/dbac" auth="Container" type="javax.sql.DataSource"/>
+        <Resource name="jdbc/dbad" auth="Container" type="javax.sql.DataSource"/>
+        <Resource name="jdbc/dbae" auth="Container" type="javax.sql.DataSource"/>
+        <Resource name="jdbc/dbag" auth="Container" type="javax.sql.DataSource"/>
+        <Resource name="jdbc/dbai" auth="Container" type="javax.sql.DataSource"/>
+        <Resource name="jdbc/dbaj" auth="Container" type="javax.sql.DataSource"/>
+        <Resource name="jdbc/dbak" auth="Container" type="javax.sql.DataSource"/>
+        <Resource name="jdbc/dbal" auth="Container" type="javax.sql.DataSource"/>
+        <Resource name="jdbc/dbam" auth="Container" type="javax.sql.DataSource"/>
+        <Resource name="jdbc/dban" auth="Container" type="javax.sql.DataSource"/>
+        <Resource name="jdbc/dbap" auth="Container" type="javax.sql.DataSource"/>
+        <Resource name="jdbc/dbat" auth="Container" type="javax.sql.DataSource"/>
+        <Resource name="jdbc/dbav" auth="Container" type="javax.sql.DataSource"/>
+        <Resource name="jdbc/dbax" auth="Container" type="javax.sql.DataSource"/>
+        <Resource name="jdbc/dbbg" auth="Container" type="javax.sql.DataSource"/>
+        <Resource name="jdbc/dbcb" auth="Container" type="javax.sql.DataSource"/>
+        <Resource name="jdbc/dbcm" auth="Container" type="javax.sql.DataSource"/>
+        <Resource name="jdbc/dbdd" auth="Container" type="javax.sql.DataSource"/>
+        <Resource name="jdbc/dbdj" auth="Container" type="javax.sql.DataSource"/>
+        <Resource name="jdbc/dbfa" auth="Container" type="javax.sql.DataSource"/>
+        <Resource name="jdbc/dbfm" auth="Container" type="javax.sql.DataSource"/>
+        <Resource name="jdbc/dbzf" auth="Container" type="javax.sql.DataSource"/>
+        <Resource name="jdbc/dbzz" auth="Container" type="javax.sql.DataSource"/>
+        <Resource name="jdbc/CXLHR" auth="Container" type="javax.sql.DataSource"/>
+        <Resource name="jdbc/dbqb" auth="Container" type="javax.sql.DataSource"/>
+        <Resource name="jdbc/dbqp" auth="Container" type="javax.sql.DataSource"/>
+      </GlobalNamingResources>
+      <Service name="Catalina">
+        <Connector port="8080" protocol="HTTP/1.1" connectionTimeout="20000" redirectPort="8443"/>
+        <Connector port="8009" protocol="AJP/1.3" redirectPort="8443"/>
+        <Engine name="Catalina" defaultHost="localhost">
+          <Host name="localhost" appBase="webapps" unpackWARs="true" autoDeploy="true">
+            <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" prefix="localhost_access_log" suffix=".txt" pattern="%h %l %u %t &quot;%r&quot; %s %b"/>
+          </Host>
+        </Engine>
+      </Service>
+    </Server>
+  context.xml: |
+    <?xml version="1.0" encoding="UTF-8"?>
+    <Context>
+      <WatchedResource>WEB-INF/web.xml</WatchedResource>
+      <WatchedResource>${catalina.base}/conf/web.xml</WatchedResource>
+    
+      <Manager className="org.redisson.tomcat.RedissonSessionManager"
+        configPath="${catalina.home}/redisson.conf"
+        readMode="MEMORY" updateMode="DEFAULT" boradcastSessionEvents="true" />
+    
+      <Resource url="jdbc:db2://10.95.40.1:50000/CXL1" name="jdbc/default" username="EBAF" password="cxlebaf" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
+      <Resource url="jdbc:db2://10.95.40.1:50000/CXL1" name="jdbc/dbobj" username="EBAF" password="cxlebaf" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
+      <Resource url="jdbc:db2://10.95.40.1:50000/CXL1" name="jdbc/auth" username="EBAF" password="cxlebaf" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
+      <Resource url="jdbc:db2://10.95.40.1:50000/CXL1" name="jdbc/dbab" username="dbab" password="cathayab" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
+      <Resource url="jdbc:db2://10.95.40.1:50000/CXL1" name="jdbc/dbac" username="dbac" password="cathAC" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
+      <Resource url="jdbc:db2://10.95.40.1:50000/CXL1" name="jdbc/dbad" username="dbad" password="cathad" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
+      <Resource url="jdbc:db2://10.95.40.1:50000/CXL1" name="jdbc/dbae" username="dbae" password="aecxl1" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
+      <Resource url="jdbc:db2://10.95.40.1:50000/CXL1" name="jdbc/dbag" username="dbag" password="cathayag" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
+      <Resource url="jdbc:db2://10.95.40.1:50000/CXL1" name="jdbc/dbai" username="dbai" password="cxldbai" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
+      <Resource url="jdbc:db2://10.95.40.1:50000/CXL1" name="jdbc/dbaj" username="dbaj" password="cxlaj" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
+      <Resource url="jdbc:db2://10.95.40.1:50000/CXL1" name="jdbc/dbak" username="dbak" password="cxlak21" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
+      <Resource url="jdbc:db2://10.95.40.1:50000/CXL1" name="jdbc/dbal" username="dbal" password="cathayal" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
+      <Resource url="jdbc:db2://10.95.40.1:50000/CXL1" name="jdbc/dbam" username="dbam" password="cxldbam" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
+      <Resource url="jdbc:db2://10.95.40.1:50000/CXL1" name="jdbc/dban" username="dban" password="dbancxl1" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
+      <Resource url="jdbc:db2://10.95.40.1:50000/CXL1" name="jdbc/dbap" username="dbap" password="cxldbap" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
+      <Resource url="jdbc:db2://10.95.40.1:50000/CXL1" name="jdbc/dbax" username="dbax" password="cxldbax" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
+      <Resource url="jdbc:db2://10.95.40.1:50000/CXL1" name="jdbc/dbat" username="dbat" password="cathayat" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
+      <Resource url="jdbc:db2://10.95.40.1:50000/CXL1" name="jdbc/dbav" username="dbav" password="cathayav" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
+      <Resource url="jdbc:db2://10.95.40.1:50000/CXL1" name="jdbc/dbbg" username="dbbg" password="dbbgcxl1" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
+      <Resource url="jdbc:db2://10.95.40.1:50000/CXL1" name="jdbc/dbcb" username="dbcb" password="cxlDBCB" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
+      <Resource url="jdbc:db2://10.95.40.1:50000/CXL1" name="jdbc/dbcm" username="dbcm" password="cxldbcm" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
+      <Resource url="jdbc:db2://10.95.40.1:50000/CXL1" name="jdbc/dbdd" username="dbdd" password="cxldbdd" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
+      <Resource url="jdbc:db2://10.95.40.1:50000/CXL1" name="jdbc/dbdj" username="dbdj" password="cathaydj" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
+      <Resource url="jdbc:db2://10.95.40.1:50000/CXL1" name="jdbc/dbfa" username="dbfa" password="dodoroCXL" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
+      <Resource url="jdbc:db2://10.95.40.1:50000/CXL1" name="jdbc/dbfm" username="dbfm" password="CATHdbfm" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
+      <Resource url="jdbc:db2://10.95.40.1:50000/CXL1" name="jdbc/dbzf" username="dbzf" password="cxl1dbzf" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
+      <Resource url="jdbc:db2://10.95.40.1:50000/CXL1" name="jdbc/dbzz" username="dbzz" password="cxldbzz" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
+      <Resource url="jdbc:db2://10.95.40.1:50000/CXL1" name="jdbc/cxlhr" username="cxlhr" password="HRcx11" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
+      <Resource url="jdbc:db2://10.95.40.1:50000/DBLOG" name="jdbc/dbqb" username="dbqb" password="CXLdbqb" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
+      <Resource url="jdbc:db2://10.95.40.1:50000/DBLOG" name="jdbc/dbqp" username="dbqp" password="cathayQP" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
+    </Context>
