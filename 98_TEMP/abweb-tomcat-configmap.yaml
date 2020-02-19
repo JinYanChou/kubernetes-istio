@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: tomcat-configmap
+  name: abweb-tomcat-configmap
   namespace: csr
 data:
   server.xml: |

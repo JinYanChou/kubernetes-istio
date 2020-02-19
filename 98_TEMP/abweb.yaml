@@ -39,19 +39,19 @@ spec:
       volumes:
       - name: tomcat-server-xml
         configMap:
-          name: tomcat-configmap
+          name: abweb-tomcat-configmap
           items:
           - key: server.xml
             path: server.xml
       - name: tomcat-context-xml
         configMap:
-          name: tomcat-configmap
+          name: abweb-tomcat-configmap
           items:
           - key: context.xml
             path: context.xml
       - name: db2poolsvc-xml
         configMap:
-          name: db-configmap
+          name: abweb-db-configmap
           items:
           - key: DB2PoolSvc.xml
             path: DB2PoolSvc.xml
