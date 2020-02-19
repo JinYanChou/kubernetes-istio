@@ -69,3 +69,21 @@ spec:
   - name: web
     port: 8080
     targetPort: 8080
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: abweb-ingress
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/app-root: /ABWeb
+    traefik.ingress.kubernetes.io/rule-type: PathPrefix
+    traefik.frontend.passHostHeader: "true"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /ABWeb
+        backend:
+          serviceName: abweb
+          servicePort: 8080
