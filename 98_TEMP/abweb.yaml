@@ -5,7 +5,7 @@ metadata:
   labels:
     app: abweb
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: abweb
@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: abweb
-        image: hub.cathay/abweb:1.0-kafka-db2
+        image: hub.cathay/abweb:1.1-kafka-db2
         ports:
         - containerPort: 8080
           name: web
