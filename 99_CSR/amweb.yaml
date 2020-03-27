@@ -6,7 +6,7 @@ metadata:
   labels:
     app: amweb
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: amweb
@@ -43,6 +43,8 @@ spec:
         - name: db2poolsvc-xml
           mountPath: /webapp/AM_SRC/usr/cxlcs/config/service/DB2PoolSvc.xml
           subPath: DB2PoolSvc.xml
+        - name: log-data
+          mountPath: /usr/local/tomcat/logs
       volumes:
       - name: tomcat-server-xml
         configMap:
@@ -62,8 +64,14 @@ spec:
           items:
           - key: DB2PoolSvc.xml
             path: DB2PoolSvc.xml
+      - name: log-data
+        hostPath:
+          path: /zookeeper/amweb-log
+          type: Directory
       imagePullSecrets:
       - name: regcred
+      nodeSelector:
+        kubernetes.io/hostname: cxl92008k8st03
 ---
 apiVersion: v1
 kind: Service
