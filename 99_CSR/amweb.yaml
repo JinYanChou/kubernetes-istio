@@ -45,6 +45,8 @@ spec:
           subPath: DB2PoolSvc.xml
         - name: log-data
           mountPath: /usr/local/tomcat/logs
+        - name: nas-am
+          mountPath: /opt/IBM/WebSphere/data/
       volumes:
       - name: tomcat-server-xml
         configMap:
@@ -67,6 +69,10 @@ spec:
       - name: log-data
         hostPath:
           path: /zookeeper/amweb-log
+          type: Directory
+      - name: nas-am
+        hostPath:
+          path: /nas01/csr/test/
           type: Directory
       imagePullSecrets:
       - name: regcred
