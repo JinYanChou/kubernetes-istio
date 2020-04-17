@@ -76,7 +76,7 @@ spec:
         hostPath:
           path: /nas01/csr/test/am/
           type: Directory
-      - name: nas-am
+      - name: nas-jasperreport
         hostPath:
           path: /nas01/csr/test/jasperreport/
           type: Directory
