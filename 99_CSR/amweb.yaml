@@ -46,7 +46,9 @@ spec:
         - name: log-data
           mountPath: /usr/local/tomcat/logs
         - name: nas-am
-          mountPath: /opt/IBM/WebSphere/data
+          mountPath: /opt/IBM/WebSphere/data/am
+        - name: nas-jasperreport
+          mountPath: /home/jasperreport
       volumes:
       - name: tomcat-server-xml
         configMap:
@@ -72,7 +74,11 @@ spec:
           type: Directory
       - name: nas-am
         hostPath:
-          path: /nas01/csr/test/
+          path: /nas01/csr/test/am/
+          type: Directory
+      - name: nas-am
+        hostPath:
+          path: /nas01/csr/test/jasperreport/
           type: Directory
       imagePullSecrets:
       - name: regcred
