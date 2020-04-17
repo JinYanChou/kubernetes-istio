@@ -46,7 +46,7 @@ spec:
         - name: log-data
           mountPath: /usr/local/tomcat/logs
         - name: nas-am
-          mountPath: /opt/IBM/WebSphere/data/
+          mountPath: /opt/IBM/WebSphere/data
       volumes:
       - name: tomcat-server-xml
         configMap:
