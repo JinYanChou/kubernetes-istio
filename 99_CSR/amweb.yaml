@@ -49,10 +49,6 @@ spec:
           mountPath: /opt/IBM/WebSphere/data/am
         - name: nas-jasperreport
           mountPath: /home/jasperreport
-      securityContext:
-        fsGroup: 3001
-        runAsUser: 3001
-        runAsGroup: 3001
       volumes:
       - name: tomcat-server-xml
         configMap:
