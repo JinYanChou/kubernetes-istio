@@ -51,6 +51,7 @@ spec:
           mountPath: /home/jasperreport
       securityContext:
         fsGroup: 3001
+        runAsGroup: 3001
       volumes:
       - name: tomcat-server-xml
         configMap:
