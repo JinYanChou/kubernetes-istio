@@ -24,8 +24,8 @@ spec:
       initContainers:
       - name: init-redis
         image: redis:5.0.6-alpine
-        command: ["/bin/sh"]
-        args: ["-c", "COUNT=$(redis-cli -h redis-0.redis.csr.svc.cluster.local cluster nodes | wc -l)","until $COUNT -eq 6; do echo waiting for redis; sleep 2; done"]
+        command: ["/bin/sh", "-c"]
+        args: ["chown -R 3001:3001 /usr/local/tomcat/logs", "COUNT=$(redis-cli -h redis-0.redis.csr.svc.cluster.local cluster nodes | wc -l)", "until $COUNT -eq 6; do echo waiting for redis; sleep 2; done"]
       containers:
       - name: amweb
         image: hub.cathay/amweb:1.0
