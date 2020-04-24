@@ -1,18 +1,30 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: redis
-  namespace: csr
+  name: redis-service
   labels:
     app: redis
 spec:
   ports:
-  - port: 6379
-    targetPort: 6379
-    name: redis
-  - port: 16379
-    targetPort: 16379
-    name: cluster
+  - name: redis-port
+    port: 6379
+  clusterIP: None
   selector:
     app: redis
-  clusterIP: None
+    appCluster: redis-cluster
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-access-service
+  labels:
+    app: redis
+spec:
+  ports:
+  - name: redis-port
+    protocol: "TCP"
+    port: 6379
+    targetPort: 6379
+  selector:
+    app: redis
+    appCluster: redis-cluster
