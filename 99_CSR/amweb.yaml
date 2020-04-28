@@ -43,6 +43,10 @@ spec:
         # - name: db2poolsvc-xml
         #   mountPath: /webapp/AM_SRC/usr/cxlcs/config/service/DB2PoolSvc.xml
         #   subPath: DB2PoolSvc.xml
+        - name: log4j-configmap
+          mountPath: /usr/local/tomcat/webapps/AMWeb/WEB-INF/classes/log4j.properties
+        - name: web-configmap
+          mountPath: /usr/local/tomcat/webapps/AMWeb/WEB-INF/web.xml
         - name: usr-config
           mountPath: /usr/local/tomcat/webapps/AMWeb/WEB-INF/classes/usr
         - name: log-data
@@ -70,6 +74,12 @@ spec:
       #     items:
       #     - key: DB2PoolSvc.xml
       #       path: DB2PoolSvc.xml
+      - name: web-configmap
+        configMap:
+          name: web-configmap
+      - name: log4j-configmap
+        configMap:
+          name: log4j-configmap
       - name: usr-config
         hostPath:
           path: /zookeeper/usr

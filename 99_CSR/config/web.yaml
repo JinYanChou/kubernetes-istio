@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: web-configmap
+data:
+  <?xml version="1.0" encoding="UTF-8"?><web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="WebApp_ID" version="3.0" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+    <display-name>AMWeb</display-name>
+    <filter>
+      <filter-name>Set_Character_Encoding</filter-name>
+      <filter-class>org.apache.catalina.filters.SetCharacterEncodingFilter</filter-class>
+      <init-param>
+        <param-name>encoding</param-name>
+        <param-value>Big5</param-value>
+      </init-param>
+    </filter>
+    <filter-mapping>
+      <filter-name>Set_Character_Encoding</filter-name>
+      <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter>
+      <description>AjaxFilter</description>
+      <display-name>AjaxFilter</display-name>
+      <filter-name>AjaxFilter</filter-name>
+      <filter-class>com.igsapp.web.ext.AjaxFilter</filter-class>
+    </filter>
+    <filter-mapping>
+      <filter-name>AjaxFilter</filter-name>
+      <url-pattern>/AjaxFilter</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+      <filter-name>AjaxFilter</filter-name>
+      <servlet-name>HttpDispatcher</servlet-name>
+      <dispatcher>FORWARD</dispatcher>
+      <dispatcher>INCLUDE</dispatcher>
+      <dispatcher>REQUEST</dispatcher>
+      <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
+    <servlet>
+      <servlet-name>HttpDispatcher</servlet-name>
+      <servlet-class>com.cathay.common.log4j.Log4jAwareDispatcher</servlet-class>
+      <init-param>
+        <param-name>configFile</param-name>
+        <param-value>/usr/cxlcs/config/init/config.properties</param-value>
+      </init-param>
+      <load-on-startup>3</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+      <servlet-name>HttpDispatcher</servlet-name>
+      <url-pattern>/servlet/HttpDispatcher/*</url-pattern>
+    </servlet-mapping>
+    <welcome-file-list>
+      <welcome-file>html/CM/default.jsp</welcome-file>
+    </welcome-file-list>
+    <jsp-config>
+      <jsp-property-group>
+        <description/>
+        <display-name>page encoding</display-name>
+        <url-pattern>*.jsp</url-pattern>
+        <el-ignored>false</el-ignored>
+        <page-encoding>Big5</page-encoding>
+        <scripting-invalid>false</scripting-invalid>
+        <is-xml>false</is-xml>
+      </jsp-property-group>
+    </jsp-config>
+  </web-app>
