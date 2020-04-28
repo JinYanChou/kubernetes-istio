@@ -77,9 +77,11 @@ spec:
       - name: web-configmap
         configMap:
           name: web-configmap
+          key: web.xml
       - name: log4j-configmap
         configMap:
           name: log4j-configmap
+          key: log4j.properties
       - name: usr-config
         hostPath:
           path: /zookeeper/usr

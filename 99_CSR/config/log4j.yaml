@@ -3,19 +3,20 @@ kind: ConfigMap
 metadata:
   name: log4j-configmap
 data:
-  log4j.rootLogger=DEBUG, console, DefaultLog
-
-  log4j.appender.console=org.apache.log4j.ConsoleAppender
-  log4j.appender.console.target=System.out
-  log4j.appender.console.encoding=UTF-8
-  log4j.appender.console.layout=org.apache.log4j.PatternLayout
-  log4j.appender.console.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss,SSS} [%-5p][%C{1}.%M()(%L)] - %m%n
-  
-  log4j.appender.DefaultLog=org.apache.log4j.RollingFileAppender
-  log4j.appender.DefaultLog.encoding=UTF-8
-  log4j.appender.DefaultLog.File=logs/AMWeb.log
-  log4j.appender.DefaultLog.ImmediateFlush=true
-  log4j.appender.DefaultLog.MaxFileSize=5MB
-  log4j.appender.DefaultLog.MaxBackupIndex=100
-  log4j.appender.DefaultLog.layout=org.apache.log4j.PatternLayout
-  log4j.appender.DefaultLog.layout.ConversionPattern=[%-5p:%d{yyyy MMM dd HH:mm:ss}] [%C{1}.%M()(%L)] - %m%n
+  log4j.properties: |
+    log4j.rootLogger=DEBUG, console, DefaultLog
+    
+    log4j.appender.console=org.apache.log4j.ConsoleAppender
+    log4j.appender.console.target=System.out
+    log4j.appender.console.encoding=UTF-8
+    log4j.appender.console.layout=org.apache.log4j.PatternLayout
+    log4j.appender.console.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss,SSS} [%-5p][%C{1}.%M()(%L)] - %m%n
+    
+    log4j.appender.DefaultLog=org.apache.log4j.RollingFileAppender
+    log4j.appender.DefaultLog.encoding=UTF-8
+    log4j.appender.DefaultLog.File=logs/AMWeb.log
+    log4j.appender.DefaultLog.ImmediateFlush=true
+    log4j.appender.DefaultLog.MaxFileSize=5MB
+    log4j.appender.DefaultLog.MaxBackupIndex=100
+    log4j.appender.DefaultLog.layout=org.apache.log4j.PatternLayout
+    log4j.appender.DefaultLog.layout.ConversionPattern=[%-5p:%d{yyyy MMM dd HH:mm:ss}] [%C{1}.%M()(%L)] - %m%n
