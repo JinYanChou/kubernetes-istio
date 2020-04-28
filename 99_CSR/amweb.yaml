@@ -44,7 +44,7 @@ spec:
         #   mountPath: /webapp/AM_SRC/usr/cxlcs/config/service/DB2PoolSvc.xml
         #   subPath: DB2PoolSvc.xml
         - name: usr-config
-          mountPath: /usr/local/tomcat/AMWeb/WEB-INF/usr
+          mountPath: /usr/local/tomcat/webapps/AMWeb/WEB-INF/classes/usr
         - name: log-data
           mountPath: /usr/local/tomcat/logs
         - name: nas-am
