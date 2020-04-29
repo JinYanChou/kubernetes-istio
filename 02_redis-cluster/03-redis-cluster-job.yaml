@@ -20,7 +20,7 @@ spec:
         - -c
         - |
           redis-cli --cluster create --cluster-replicas 1 --cluster-yes \
-          `echo $(getent hosts redis-0.redis-service.csr.svc.cluster.local | cut -d' ' -f1)`:6379 \
+          `echo $(getent hosts redis-0.redis.csr.svc.cluster.local | cut -d' ' -f1)`:6379 \
           `echo $(getent hosts redis-1.redis.csr.svc.cluster.local | cut -d' ' -f1)`:6379 \
           `echo $(getent hosts redis-2.redis.csr.svc.cluster.local | cut -d' ' -f1)`:6379 \
           `echo $(getent hosts redis-3.redis.csr.svc.cluster.local | cut -d' ' -f1)`:6379 \
