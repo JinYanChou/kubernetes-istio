@@ -67,7 +67,7 @@ spec:
     spec:
       accessModes:
       - ReadWriteMany
-      storageClassName: my-nfs-storage
+      storageClassName: csr-storage
       resources:
         requests:
           storage: 200M
