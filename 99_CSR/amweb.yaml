@@ -45,8 +45,10 @@ spec:
         #   subPath: DB2PoolSvc.xml
         - name: log4j-configmap
           mountPath: /usr/local/tomcat/webapps/AMWeb/WEB-INF/classes/log4j.properties
+          subPath: log4j.properties
         - name: web-configmap
           mountPath: /usr/local/tomcat/webapps/AMWeb/WEB-INF/web.xml
+          subPath: web.xml
         - name: usr-config
           mountPath: /usr/local/tomcat/webapps/AMWeb/WEB-INF/classes/usr
         - name: log-data
