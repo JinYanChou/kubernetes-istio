@@ -43,7 +43,7 @@ spec:
             cpu: "100m"                     #m代表千分之,相當於0.1 個cpu資源
             memory: "100Mi"                 #內存100m大小
         ports:
-            - name: redis
+            - name: redis-port
               containerPort: 6379
               protocol: "TCP"
             - name: cluster
