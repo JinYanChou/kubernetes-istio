@@ -16,6 +16,7 @@ data:
         <Resource name="jdbc/default" auth="Container" type="javax.sql.DataSource"/>
         <Resource name="jdbc/dbobj" auth="Container" type="javax.sql.DataSource"/>
         <Resource name="jdbc/auth" auth="Container" type="javax.sql.DataSource"/>
+        <Resource name="jdbc/CommonDS" auth="Container" type="javax.sql.DataSource"/>
         <Resource name="jdbc/dbab" auth="Container" type="javax.sql.DataSource"/>
         <Resource name="jdbc/dbac" auth="Container" type="javax.sql.DataSource"/>
         <Resource name="jdbc/dbad" auth="Container" type="javax.sql.DataSource"/>
@@ -67,6 +68,7 @@ data:
       <Resource url="jdbc:db2://10.95.40.1:50000/CXL1" name="jdbc/default" username="EBAF" password="cxlebaf" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
       <Resource url="jdbc:db2://10.95.40.1:50000/CXL1" name="jdbc/dbobj" username="EBAF" password="cxlebaf" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
       <Resource url="jdbc:db2://10.95.40.1:50000/CXL1" name="jdbc/auth" username="EBAF" password="cxlebaf" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
+      <Resource url="jdbc:db2://10.95.40.1:50000/CXL1" name="jdbc/CommonDS" username="EBAF" password="cxlebaf" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
       <Resource url="jdbc:db2://10.95.40.1:50000/CXL1" name="jdbc/dbab" username="dbab" password="cathayab" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
       <Resource url="jdbc:db2://10.95.40.1:50000/CXL1" name="jdbc/dbac" username="dbac" password="cathAC" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
       <Resource url="jdbc:db2://10.95.40.1:50000/CXL1" name="jdbc/dbad" username="dbad" password="cathad" type="javax.sql.DataSource" auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxIdle="30" maxTotal="50" maxWaitMillis="-1" />
