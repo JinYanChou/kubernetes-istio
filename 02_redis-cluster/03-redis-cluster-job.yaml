@@ -14,12 +14,12 @@ spec:
         command: ['sh', '-c', 'until nslookup redis-5.redis.csr.svc.cluster.local; do echo waiting for redis; sleep 5; done;']
       containers:
       - name: redis
-        image: redis:5.0.6-alpine
+        image: redis:6.0.1-alpine
         command:
         - sh
         - -c
         - |
-          redis-cli --cluster create --cluster-replicas 1 --cluster-yes \
+          echo "yes" | redis-cli --cluster create --cluster-replicas 1 \
           `echo $(getent hosts redis-0.redis.csr.svc.cluster.local | cut -d' ' -f1)`:6379 \
           `echo $(getent hosts redis-1.redis.csr.svc.cluster.local | cut -d' ' -f1)`:6379 \
           `echo $(getent hosts redis-2.redis.csr.svc.cluster.local | cut -d' ' -f1)`:6379 \

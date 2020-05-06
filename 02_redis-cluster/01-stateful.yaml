@@ -30,7 +30,7 @@ spec:
       terminationGracePeriodSeconds: 20
       containers:
       - name: redis
-        image: "redis:5.0.6-alpine"
+        image: "redis:6.0.1-alpine"
         command:
           - "redis-server"                  #redis啓動命令
         args:
