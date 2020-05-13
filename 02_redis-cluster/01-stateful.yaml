@@ -3,7 +3,19 @@ kind: ConfigMap
 metadata:
   name: redis-conf
 data:
-  redis.conf: |
+  fix-ip.sh: |
+    #!/bin/sh
+    CLUSTER_CONFIG="/var/lib/redis/nodes.conf"
+    if [ -f ${CLUSTER_CONFIG} ]; then
+      if [ -z "${POD_IP}" ]; then 
+        echo "Unable to determine Pod IP address!"
+        exit 1
+      fi
+      echo "Updating my IP to ${POD_IP} in ${CLUSTER_CONFIG}"
+      sed -i.bak -e "/myself/ s/[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}/${POD_IP}/" ${CLUSTER_CONFIG}
+    fi
+    exec "$@"
+  redis.conf: |+
     appendonly yes
     cluster-enabled yes
     cluster-config-file /var/lib/redis/nodes.conf
@@ -32,12 +44,34 @@ spec:
       - name: redis
         image: "redis:6.0.1-alpine"
         command:
+          - "/conf/fix-ip.sh"
           - "redis-server"                  #redis啓動命令
         args:
-          - "/etc/redis/redis.conf"         #redis-server後面跟的參數,換行代表空格
+          - "/conf/redis.conf"              #redis-server後面跟的參數,換行代表空格
           - "--protected-mode"              #允許外網訪問
           - "no"
-        # command: redis-server /etc/redis/redis.conf --protected-mode no
+        # command: redis-server /conf/redis.conf --protected-mode no
+        readinessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - "redis-cli -h $(hostname) ping"
+          initialDelaySeconds: 15
+          timeoutSeconds: 5
+        livenessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - "redis-cli -h $(hostname) ping"
+          initialDelaySeconds: 20
+          periodSeconds: 3
+        env:
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
         resources:                          #資源
           requests:                         #請求的資源
             cpu: "100m"                     #m代表千分之,相當於0.1 個cpu資源
@@ -50,18 +84,16 @@ spec:
               containerPort: 16379
               protocol: "TCP"
         volumeMounts:
-          - name: "redis-conf"              #掛載configmap生成的文件
-            mountPath: "/etc/redis"         #掛載到哪個路徑下
-          - name: "redis-data"              #掛載持久卷的路徑
+          - name: "redis-conf"
+            mountPath: "/conf"
+          - name: "redis-data"
             mountPath: "/var/lib/redis"
       volumes:
-      - name: "redis-conf"                  #引用configMap卷
+      - name: "redis-conf"
         configMap:
           name: "redis-conf"
-          items:
-            - key: "redis.conf"             #創建configMap指定的名稱
-              path: "redis.conf"            #裏面的那個文件--from-file參數後面的文件
-  volumeClaimTemplates:                     #進行pvc持久卷聲明,
+          defaultMode: 0755
+  volumeClaimTemplates:
   - metadata:
       name: redis-data
     spec:
