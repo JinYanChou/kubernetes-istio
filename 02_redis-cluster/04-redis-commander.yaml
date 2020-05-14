@@ -32,6 +32,7 @@ metadata:
   labels:
     app: redis-commander
 spec:
+  type: NodePort
   ports:
   - name: redis-commander
     protocol: "TCP"
