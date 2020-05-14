@@ -24,6 +24,8 @@ spec:
         env:
         - name: REDIS_HOSTS
           value: redis:redis-access-service.csr.svc.cluster.local:6379
+        - name: REDIS_PASSWORD
+          value: cathaylife
 ---
 apiVersion: v1
 kind: Service
