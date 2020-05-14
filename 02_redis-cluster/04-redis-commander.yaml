@@ -6,6 +6,9 @@ metadata:
     app: redis-commander
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: redis-commander
   template:
     metadata:
       labels:
