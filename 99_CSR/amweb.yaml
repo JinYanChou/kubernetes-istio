@@ -30,6 +30,9 @@ spec:
       - name: amweb
         image: hub.cathay/amweb:1.0
         imagePullPolicy: Always
+        env:
+        - name: JAVA_OPTS
+          value: "-Ddb2.jcc.charsetDecoderEncoder=3 -Djavax.servlet.request.encoding=CP950 -Dfile.encoding=CP950"
         ports:
         - containerPort: 8080
           name: web
