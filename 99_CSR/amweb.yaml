@@ -49,6 +49,9 @@ spec:
         - name: web-configmap
           mountPath: /usr/local/tomcat/webapps/AMWeb/WEB-INF/web.xml
           subPath: web.xml
+        - name: redisson-configmap
+          mountPath: /usr/local/tomcat/redisson.conf
+          subPath: redisson.conf
         - name: usr-config
           mountPath: /usr/local/tomcat/webapps/AMWeb/WEB-INF/classes/usr
         - name: log-data
@@ -82,6 +85,12 @@ spec:
           items:
           - key: web.xml
             path: web.xml
+      - name: redisson-configmap
+        configMap:
+          name: redisson-configmap
+          items:
+          - key: redisson.conf
+            path: redisson.conf
       - name: log4j-configmap
         configMap:
           name: log4j-configmap

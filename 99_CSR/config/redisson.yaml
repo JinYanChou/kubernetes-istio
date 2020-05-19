@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redisson-configmap
+data:
+  redisson.conf: |
+    clusterServersConfig:
+      idleConnectionTimeout: 10000
+      connectTimeout: 10000
+      timeout: 3000
+      retryAttempts: 3
+      retryInterval: 1500
+      password: null
+      subscriptionsPerConnection: 5
+      clientName: null
+      loadBalancer: !<org.redisson.connection.balancer.RoundRobinLoadBalancer> {}
+      slaveConnectionMinimumIdleSize: 32
+      slaveConnectionPoolSize: 64
+      masterConnectionMinimumIdleSize: 32
+      masterConnectionPoolSize: 64
+      readMode: "SLAVE"
+      nodeAddresses:
+      - "redis://redis-0.redis.csr.svc.cluster.local:6379"
+      - "redis://redis-1.redis.csr.svc.cluster.local:6379"
+      - "redis://redis-2.redis.csr.svc.cluster.local:6379"
+      - "redis://redis-3.redis.csr.svc.cluster.local:6379"
+      - "redis://redis-4.redis.csr.svc.cluster.local:6379"
+      - "redis://redis-5.redis.csr.svc.cluster.local:6379"
+      scanInterval: 1000
+    threads: 0
+    nettyThreads: 0
+    codec: !<org.redisson.codec.KryoCodec> {}
