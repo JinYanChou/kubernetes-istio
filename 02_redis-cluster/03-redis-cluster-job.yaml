@@ -19,7 +19,7 @@ spec:
         - sh
         - -c
         - |
-          echo "yes" | redis-cli --cluster create --cluster-replicas 1 \
+          echo "yes" | redis-cli -a 'cathaylife' --cluster create --cluster-replicas 1 \
           `echo $(getent hosts redis-0.redis.csr.svc.cluster.local | cut -d' ' -f1)`:6379 \
           `echo $(getent hosts redis-1.redis.csr.svc.cluster.local | cut -d' ' -f1)`:6379 \
           `echo $(getent hosts redis-2.redis.csr.svc.cluster.local | cut -d' ' -f1)`:6379 \
