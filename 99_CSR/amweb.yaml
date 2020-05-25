@@ -135,7 +135,7 @@ spec:
   - name: web
     port: 8080
     targetPort: 8080
-  - name: jmx_exporter
+  - name: jmx-exporter
     port: 9105
     targetPort: 9105
 ---
