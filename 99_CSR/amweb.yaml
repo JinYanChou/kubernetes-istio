@@ -34,10 +34,10 @@ spec:
         - name: JAVA_OPTS
           value: "$JAVA_OPTS -Ddb2.jcc.charsetDecoderEncoder=3 -Djavax.servlet.request.encoding=CP950 -Dfile.encoding=CP950"
         ports:
-        - containerPort: 8080
-          name: web
         - containerPort: 9105
           name: jmx_exporter
+        - containerPort: 8080
+          name: web
         volumeMounts:
         - name: tomcat-server-xml
           mountPath: /usr/local/tomcat/conf/server.xml
