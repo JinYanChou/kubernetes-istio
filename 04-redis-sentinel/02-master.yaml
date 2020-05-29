@@ -1,0 +1,51 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-master
+  labels:
+    app: redis-master
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-master
+  template:
+    metadata:
+      labels:
+        app: redis-master
+    spec:
+      containers:
+      - name: redis
+        image: redis:6.0.1-alpine
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: redis
+          containerPort: 6379
+        readinessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - "redis-cli -h $(hostname) ping"
+          initialDelaySeconds: 1
+          timeoutSeconds: 5
+      - name: redis-sentinel
+        image: hub.cathay/redis:6.0.1-alpine-sentinel
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: SENTINEL_DOWN_AFTER
+          value: "5000"
+        - name: SENTINEL_FAILOVER
+          value: "5000"
+        - name: SENTINEL_QUORUM
+          value: "1"
+        - name: SENTINEL_PORT
+          value: "26379"
+        - name: REDIS_MASTER
+          value: "redis-master"
+        ports:
+        - name: redis-sentinel
+          containerPort: 26379
+      imagePullSecrets:
+      - name: regcred
