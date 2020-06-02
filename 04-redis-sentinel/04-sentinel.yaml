@@ -1,0 +1,56 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-sentinel
+  labels:
+    app: redis-sentinel
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-sentinel
+  template:
+    metadata:
+      labels:
+        app: redis-sentinel
+    spec:
+      containers:
+      - name: redis-sentinel
+        image: hub.cathay/redis:6.0.1-alpine-sentinel
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: SENTINEL_DOWN_AFTER
+          value: "500"
+        - name: SENTINEL_FAILOVER
+          value: "5000"
+        - name: SENTINEL_QUORUM
+          value: "1"
+        - name: SENTINEL_PORT
+          value: "26379"
+        - name: REDIS_MASTER
+          value: "redis-master"
+        ports:
+        - name: redis-sentinel
+          containerPort: 26379
+        volumeMounts:
+        - name: "redis-conf"
+          mountPath: /etc/redis
+      volumes:
+      - name: "redis-conf"
+        persistentVolumeClaim:
+          claimName: redis-sentinel-pvc
+      imagePullSecrets:
+      - name: regcred
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: redis-sentinel-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: my-nfs-storage
+  resources:
+    requests:
+      storage: 1M

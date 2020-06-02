@@ -6,6 +6,7 @@ metadata:
   labels:
     app: redis-master
 spec:
+  clusterIP: None
   ports:
   - name: redis-port
     port: 6379
@@ -22,6 +23,7 @@ metadata:
   labels:
     app: redis-slave
 spec:
+  clusterIP: None
   ports:
   - name: redis-port
     port: 6379

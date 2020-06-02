@@ -43,22 +43,5 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: status.podIP
-      - name: redis-sentinel
-        image: hub.cathay/redis:6.0.1-alpine-sentinel
-        imagePullPolicy: IfNotPresent
-        env:
-        - name: SENTINEL_DOWN_AFTER
-          value: "1000"
-        - name: SENTINEL_FAILOVER
-          value: "5000"
-        - name: SENTINEL_QUORUM
-          value: "1"
-        - name: SENTINEL_PORT
-          value: "26379"
-        - name: REDIS_MASTER
-          value: "redis-master"
-        ports:
-        - name: redis-sentinel
-          containerPort: 26379
       imagePullSecrets:
       - name: regcred
