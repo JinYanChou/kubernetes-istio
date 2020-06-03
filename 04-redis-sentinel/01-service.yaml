@@ -10,8 +10,6 @@ spec:
   ports:
   - name: redis-port
     port: 6379
-  - name: redis-sentinel-port
-    port: 26379
   selector:
     app: redis-master
 
@@ -27,7 +25,20 @@ spec:
   ports:
   - name: redis-port
     port: 6379
+  selector:
+    app: redis-slave
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-sentinel
+  labels:
+    app: redis-sentinel
+spec:
+  clusterIP: None
+  ports:
   - name: redis-sentinel-port
     port: 26379
   selector:
-    app: redis-slave
+    app: redis-sentinel

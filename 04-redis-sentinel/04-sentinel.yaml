@@ -1,12 +1,13 @@
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: redis-sentinel
   labels:
     app: redis-sentinel
 spec:
-  replicas: 1
+  serviceName: "redis-sentinel"
+  replicas: 3
   selector:
     matchLabels:
       app: redis-sentinel
@@ -36,21 +37,15 @@ spec:
         volumeMounts:
         - name: "redis-conf"
           mountPath: /etc/redis
-      volumes:
-      - name: "redis-conf"
-        persistentVolumeClaim:
-          claimName: redis-sentinel-pvc
       imagePullSecrets:
       - name: regcred
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: redis-sentinel-pvc
-spec:
-  accessModes:
-  - ReadWriteOnce
-  storageClassName: my-nfs-storage
-  resources:
-    requests:
-      storage: 1M
+  volumeClaimTemplates:
+  - metadata:
+      name: redis-conf
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      storageClassName: my-nfs-storage
+      resources:
+        requests:
+          storage: 1M
