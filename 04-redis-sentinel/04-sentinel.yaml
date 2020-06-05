@@ -7,7 +7,7 @@ metadata:
     app: redis-sentinel
 spec:
   serviceName: "redis-sentinel"
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: redis-sentinel
@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: redis-sentinel
-        image: hub.cathay/redis:6.0.1-alpine-sentinel
+        image: 10.97.42.4:5000/library/redis-sentinel:1.0
         imagePullPolicy: IfNotPresent
         env:
         - name: SENTINEL_DOWN_AFTER
@@ -26,7 +26,7 @@ spec:
         - name: SENTINEL_FAILOVER
           value: "5000"
         - name: SENTINEL_QUORUM
-          value: "1"
+          value: "2"
         - name: SENTINEL_PORT
           value: "26379"
         - name: REDIS_MASTER
@@ -37,15 +37,13 @@ spec:
         volumeMounts:
         - name: "redis-conf"
           mountPath: /etc/redis
-      imagePullSecrets:
-      - name: regcred
   volumeClaimTemplates:
   - metadata:
       name: redis-conf
     spec:
       accessModes:
       - ReadWriteOnce
-      storageClassName: my-nfs-storage
+      storageClassName: ""
       resources:
         requests:
           storage: 1M
