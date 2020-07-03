@@ -14,6 +14,8 @@ spec:
     metadata:
       labels:
         app: redis-master
+      annotations:
+        "cni.projectcalico.org/ipAddrs": "[\"193.2.126.101\"]"
     spec:
       containers:
       - name: redis

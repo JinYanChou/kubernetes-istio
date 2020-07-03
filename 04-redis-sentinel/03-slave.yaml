@@ -1,12 +1,11 @@
 ---
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: redis-slave
   labels:
     app: redis-slave
 spec:
-  serviceName: "redis-slave"
   replicas: 1
   selector:
     matchLabels:
@@ -15,6 +14,8 @@ spec:
     metadata:
       labels:
         app: redis-slave
+      annotations:
+        "cni.projectcalico.org/ipAddrs": "[\"193.2.126.102\"]"
     spec:
       containers:
       - name: redis
