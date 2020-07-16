@@ -45,5 +45,3 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: status.podIP
-      imagePullSecrets:
-      - name: regcred
