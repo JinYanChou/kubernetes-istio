@@ -4,8 +4,12 @@ metadata:
   name: redis-standalone-conf
 data:
   redis.conf: |+
-    appendonly yes
-    dir /var/lib/redis
+    save 900 1
+    save 300 10
+    save 30 5000
+    stop-writes-on-bgsave-error yes
+    dbfilename dump.rdb
+    dir /data
     port 6379
 ---
 apiVersion: apps/v1
@@ -28,6 +32,12 @@ spec:
       - name: redis
         image: redis:6.0.1-alpine
         imagePullPolicy: IfNotPresent
+        command:
+          - "redis-server"
+        args:
+          - "/conf/redis.conf"
+          - "--protected-mode"
+          - "no"
         ports:
         - name: redis
           containerPort: 6379
@@ -38,7 +48,7 @@ spec:
             - -c
             - "redis-cli -h $(hostname) ping"
           initialDelaySeconds: 1
-          timeoutSeconds: 5
+          timeoutSeconds: 3
         resources:
           requests:
             cpu: "500m"
@@ -50,7 +60,7 @@ spec:
           - name: "redis-conf"
             mountPath: "/conf"
           - name: "redis-data"
-            mountPath: "/var/lib/redis"
+            mountPath: "/data"
       volumes:
       - name: "redis-conf"
         configMap:
@@ -58,4 +68,4 @@ spec:
           defaultMode: 0755
       - name: "redis-data"
         hostPath:
-          path: "/zookeeper/amweb-log"
+          path: "/tmp/data"
