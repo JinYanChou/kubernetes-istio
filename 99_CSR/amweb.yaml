@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: amweb
-  namespace: csr
   labels:
     app: amweb
 spec:
@@ -25,7 +24,7 @@ spec:
       - name: init-redis
         image: redis:5.0.6-alpine
         command: ["/bin/sh", "-c"]
-        args: ["COUNT=$(redis-cli -h redis-0.redis.csr.svc.cluster.local cluster nodes | wc -l)", "until $COUNT -eq 6; do echo waiting for redis; sleep 2; done"]
+        args: ["COUNT=$(redis-cli -h redis-0.redis.ebafweb.svc.cluster.local cluster nodes | wc -l)", "until $COUNT -eq 6; do echo waiting for redis; sleep 2; done"]
       containers:
       - name: amweb
         image: hub.cathay/amweb:1.0
@@ -59,12 +58,12 @@ spec:
           subPath: redisson.conf
         - name: usr-config
           mountPath: /usr/local/tomcat/webapps/AMWeb/WEB-INF/classes/usr
-        - name: log-data
-          mountPath: /usr/local/tomcat/logs
-        - name: nas-am
-          mountPath: /opt/IBM/WebSphere/data/am
-        - name: nas-jasperreport
-          mountPath: /home/jasperreport
+        # - name: log-data
+        #   mountPath: /usr/local/tomcat/logs
+        # - name: nas-am
+        #   mountPath: /opt/IBM/WebSphere/data/am
+        # - name: nas-jasperreport
+        #   mountPath: /home/jasperreport
       volumes:
       - name: tomcat-server-xml
         configMap:
@@ -106,28 +105,25 @@ spec:
         hostPath:
           path: /zookeeper/usr
           type: Directory
-      - name: log-data
-        hostPath:
-          path: /zookeeper/amweb-log
-          type: Directory
-      - name: nas-am
-        hostPath:
-          path: /nas01/csr/test/am/
-          type: Directory
-      - name: nas-jasperreport
-        hostPath:
-          path: /nas01/csr/test/jasperreport/
-          type: Directory
+      # - name: log-data
+      #   hostPath:
+      #     path: /zookeeper/amweb-log
+      #     type: Directory
+      # - name: nas-am
+      #   hostPath:
+      #     path: /nas01/csr/test/am/
+      #     type: Directory
+      # - name: nas-jasperreport
+      #   hostPath:
+      #     path: /nas01/csr/test/jasperreport/
+      #     type: Directory
       imagePullSecrets:
       - name: regcred
-      nodeSelector:
-        kubernetes.io/hostname: cxl92008k8st03
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: amweb
-  namespace: csr
 spec:
   selector:
     app: amweb
@@ -143,7 +139,6 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: amweb
-  namespace: csr
   annotations:
     kubernetes.io/ingress.class: traefik
     traefik.ingress.kubernetes.io/app-root: /AMWeb

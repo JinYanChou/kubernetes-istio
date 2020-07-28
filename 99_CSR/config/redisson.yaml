@@ -20,12 +20,12 @@ data:
       masterConnectionPoolSize: 64
       readMode: "SLAVE"
       nodeAddresses:
-      - "redis://redis-0.redis.csr.svc.cluster.local:6379"
-      - "redis://redis-1.redis.csr.svc.cluster.local:6379"
-      - "redis://redis-2.redis.csr.svc.cluster.local:6379"
-      - "redis://redis-3.redis.csr.svc.cluster.local:6379"
-      - "redis://redis-4.redis.csr.svc.cluster.local:6379"
-      - "redis://redis-5.redis.csr.svc.cluster.local:6379"
+      - "redis://redis-0.redis.ebafweb.svc.cluster.local:6379"
+      - "redis://redis-1.redis.ebafweb.svc.cluster.local:6379"
+      - "redis://redis-2.redis.ebafweb.svc.cluster.local:6379"
+      - "redis://redis-3.redis.ebafweb.svc.cluster.local:6379"
+      - "redis://redis-4.redis.ebafweb.svc.cluster.local:6379"
+      - "redis://redis-5.redis.ebafweb.svc.cluster.local:6379"
       scanInterval: 1000
     threads: 0
     nettyThreads: 0

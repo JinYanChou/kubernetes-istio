@@ -1,0 +1,11 @@
+# namePrefix: local-
+commonLabels:
+  variant: local
+commonAnnotations:
+  note: iMac Kubernetes (Kind) 
+bases:
+- ../../base
+patchesStrategicMerge:
+- 01-stateful.yaml
+- 02-service.yaml
+- 03-redis-cluster-job.yaml

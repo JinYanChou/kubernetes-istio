@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: redis-cluster-job
+spec:
+  template:
+    metadata:
+      name: redis-cluster-job
+    spec:
+      initContainers:
+      - name: init-redis
+        image: busybox:1.27.2
+      containers:
+      - name: redis
+        image: redis:6.0.1-alpine

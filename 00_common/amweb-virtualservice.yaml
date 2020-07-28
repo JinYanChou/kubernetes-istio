@@ -2,8 +2,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: qpweb
-  namespace: csr
+  name: amweb
 spec:
   hosts:
   - "*"
@@ -12,22 +11,21 @@ spec:
   http:
   - match:
     - uri:
-        prefix: "/QPWeb/"
+        prefix: "/AMWeb/"
     rewrite:
-      uri: "/QPWeb/"
+      uri: "/AMWeb/"
     route:
     - destination:
-        host: qpweb.csr.svc.cluster.local
+        host: amweb.csr.svc.cluster.local
         port:
           number: 8080
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
- name: "qpweb"
- namespace: "csr"
+ name: "amweb"
 spec:
- host: "qpweb.csr.svc.cluster.local"
+ host: "amweb.csr.svc.cluster.local"
  trafficPolicy:
    tls:
      mode: DISABLE
