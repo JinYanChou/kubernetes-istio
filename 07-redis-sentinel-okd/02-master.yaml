@@ -1,0 +1,40 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-master
+  labels:
+    app: redis-master
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-master
+  template:
+    metadata:
+      labels:
+        app: redis-master
+    spec:
+      containers:
+      - name: redis
+        image: 10.95.28.159:8083/baseimage/bitnami/redis:6.0
+        env:
+        - name: ALLOW_EMPTY_PASSWORD
+          value: 'yes'
+        - name: REDIS_AOF_ENABLED
+          value: 'no'
+        - name: REDIS_REPLICATION_MODE
+          value: 'master'
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: redis
+          containerPort: 6379
+        readinessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - "redis-cli -h $(hostname) ping"
+          initialDelaySeconds: 1
+          timeoutSeconds: 5
+        
