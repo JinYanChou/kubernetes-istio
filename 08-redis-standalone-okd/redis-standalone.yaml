@@ -1,0 +1,88 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-standalone-conf
+data:
+  redis.conf: |+
+    save 900 1
+    save 300 10
+    save 30 5000
+    stop-writes-on-bgsave-error yes
+    dbfilename dump.rdb
+    dir /data
+    port 6379
+    protected-mode no
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-standalone
+  labels:
+    app: redis-standalone
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-standalone
+  template:
+    metadata:
+      labels:
+        app: redis-standalone
+    spec:
+      containers:
+      - name: redis
+        image: image-registry.openshift-image-registry.svc:5000/ebafweb/redis:6.0
+        imagePullPolicy: Always
+        env:
+        - name: ALLOW_EMPTY_PASSWORD
+          value: 'yes'
+        - name: REDIS_AOF_ENABLED
+          value: 'no'
+        ports:
+        - name: redis
+          containerPort: 6379
+        readinessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - "redis-cli -h $(hostname) ping"
+          initialDelaySeconds: 1
+          timeoutSeconds: 3
+        resources:
+          requests:
+            cpu: "500m"
+            memory: "100Mi"
+          limits:
+            cpu: "1"
+            memory: "1000Mi"
+        volumeMounts:
+          - name: "redis-conf"
+            mountPath: "/opt/bitnami/redis/mounted-etc/redis.conf"
+            subPath: "redis.conf"
+          - name: "redis-data"
+            mountPath: "/data"
+      volumes:
+      - name: "redis-conf"
+        configMap:
+          name: "redis-standalone-conf"
+          items:
+          - key: redis.conf
+            path: redis.conf
+      - name: "redis-data"
+        # hostPath:
+        #   path: "/mnt/redisData"
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-standalone
+  labels:
+    app: redis-standalone
+spec:
+  ports:
+  - name: redis-standalone-port
+    port: 6379
+  selector:
+    app: redis-standalone
