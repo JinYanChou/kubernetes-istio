@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: redis
-        image: image-registry.openshift-image-registry.svc:5000/ebafweb/redis:6.0
+        image: 10.95.28.159:8083/baseimage/bitnami/redis:6.0
         env:
         - name: ALLOW_EMPTY_PASSWORD
           value: 'yes'
