@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    appname: amweb
+  name: amweb
+  namespace: ebafweb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: amweb
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: amweb
+    spec:
+      containers:
+      - image: image-registry.openshift-image-registry.svc:5000/ebafweb/amweb:1.0.0-TEST-20201021.100401-996-addb8538771
+        imagePullPolicy: IfNotPresent
+        name: container-0
+        ports:
+        - containerPort: 8080
+          name: http-c-0-p-0
+          protocol: TCP
+        - containerPort: 9105
+          name: http-c-0-p-1
+          protocol: TCP
+        readinessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - curl -s -I http://127.0.0.1:8080/AMWeb/servlet/HttpDispatcher/login/input | grep -q '200'
+          failureThreshold: 6
+          initialDelaySeconds: 40
+          periodSeconds: 5
+          successThreshold: 1
+          timeoutSeconds: 10
+        livenessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - curl -s -I http://127.0.0.1:8080/AMWeb/servlet/HttpDispatcher/login/input | grep -q '200'
+          failureThreshold: 3
+          initialDelaySeconds: 90
+          periodSeconds: 60
+          successThreshold: 1
+          timeoutSeconds: 10
+        resources:
+          limits:
+            cpu: "2"
+            memory: 2Gi
+          requests:
+            cpu: 500m
+            memory: 1536Mi
+        volumeMounts:
+        # - mountPath: /usr/local/tomcat/logs
+        #   name: amweblog
+        # - mountPath: /home/jasperreport
+        #   name: jasperreport
+        # - mountPath: /opt/IBM/WebSphere/data/am
+        #   name: am
+        - mountPath: /usr/local/tomcat/settings
+          name: amweb-config
+      restartPolicy: Always
+      volumes:
+      # - hostPath:
+      #     path: /var/log/amweblog
+      #   name: amweblog
+      # - hostPath:
+      #     path: /mnt/am
+      #   name: am
+      # - hostPath:
+      #     path: /mnt/jasperreport
+      #   name: jasperreport
+      - configMap:
+          defaultMode: 420
+          name: amweb-config
+        name: amweb-config
