@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: redis-sentinel
-        image: yan324/redis-sentinel:1.0
+        image: 10.95.33.59:5000/library/redis-sentinel:1.0
         imagePullPolicy: IfNotPresent
         env:
         - name: SENTINEL_DOWN_AFTER

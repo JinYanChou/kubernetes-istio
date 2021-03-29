@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: redis
-        image: redis:6.0.1-alpine
+        image: 10.95.33.59:5000/library/redis:6-alpine
         imagePullPolicy: IfNotPresent
         ports:
         - name: redis
@@ -32,3 +32,11 @@ spec:
             - "redis-cli -h $(hostname) ping"
           initialDelaySeconds: 1
           timeoutSeconds: 5
+        volumeMounts:
+        - name: redis-data
+          mountPath: /data
+      volumes:
+      - name: redis-data
+        hostPath:
+          path: /mnt/redisSentinelData/master
+        
