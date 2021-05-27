@@ -67,8 +67,11 @@ spec:
           name: "redis-standalone-conf"
           defaultMode: 0755
       - name: "redis-data"
-        hostPath:
-          path: "/mnt/redisData"
+        nfs:
+          path: /mnt/redisData
+          server: 10.95.43.8
+        # hostPath:
+        #   path: "/mnt/redisData"
         # emptyDir: {}
 ---
 apiVersion: v1
